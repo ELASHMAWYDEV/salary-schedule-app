@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, BackHandler, Platform } from "react-native";
+import { View, StyleSheet, BackHandler, Platform, Linking } from "react-native";
 import { WebView } from "react-native-webview";
 
 //Admob
@@ -22,12 +22,12 @@ import {
   INTERSTITIAL_UNIT_ID_IOS,
 } from "../../config";
 
-const { DATE_URL } = require("../../config");
+const { COUPONS_URL } = require("../../config");
 
-const DateConverter = (props) => {
+const Coupons = (props) => {
   const webView = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [url, setUrl] = useState(`${DATE_URL}?t=${Date.now()}`);
+  const [url, setUrl] = useState(`${COUPONS_URL}?t=${Date.now()}`);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackBtn); //handle back btn press
@@ -58,14 +58,13 @@ const DateConverter = (props) => {
   };
 
   const handleBackBtn = () => {
-    if (webView.current.canGoBack) {
-      webView.current.goBack();
-      return true;
-    }
+    webView.current.goBack();
+    return true;
   };
 
+
   const reloadWebView = () => {
-    setUrl(`${DATE_URL}?t=${Date.now()}`);
+    setUrl(`${COUPONS_URL}?t=${Date.now()}`);
   };
 
   return (
@@ -81,22 +80,12 @@ const DateConverter = (props) => {
         style={styles.webView}
         onLoad={() => setIsLoading(false)}
         allowsBackForwardNavigationGestures
-      />
-      <AdMobBanner
-        bannerSize="largeBanner"
-        adUnitID={
-          __DEV__
-            ? Platform.OS === "ios" //in development
-              ? BANNER_TEST_ID_IOS
-              : BANNER_TEST_ID_ANDROID
-            : Platform.OS === "ios" //in production
-            ? BANNER_UNIT_ID_IOS
-            : BANNER_UNIT_ID_ANDROID
-        }
-        servePersonalizedAds
-        onDidFailToReceiveAdWithError={(e) => console.log(e)}
-        style={{
-          alignSelf: "center",
+        onNavigationStateChange={(event) => {
+          //Open external links on browser
+          if (event.url != url && !event.url.includes(COUPONS_URL)) {
+            webView.current.stopLoading();
+            Linking.openURL(event.url);
+          }
         }}
       />
     </View>
@@ -114,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateConverter;
+export default Coupons;

@@ -24,7 +24,7 @@ const Loading = () => {
           backgroundColor: "rgba(0,0,0,0.2)",
         }}
       >
-        <ActivityIndicator size={60} color={Colors.primary} style />
+        <ActivityIndicator size={60} color={Colors.primary} />
       </View>
     </Modal>
   );

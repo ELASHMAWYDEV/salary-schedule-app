@@ -24,7 +24,7 @@ import { AdMobBanner } from "expo-ads-admob";
 import Colors from "../assets/Colors";
 
 //Config
-import { EMAIL, GOOGLE_PLAY_URL, APP_STORE_URL } from "../../config";
+import { EMAIL, GOOGLE_PLAY_URL, APP_STORE_URL, APP_NAME, SHARE_APP_TEXT } from "../../config";
 import {
   BANNER_TEST_ID_IOS,
   BANNER_TEST_ID_ANDROID,
@@ -35,6 +35,7 @@ import {
 //Screens
 import Home from "../screens/Home";
 import DateConverter from "../screens/DateConverter";
+import Coupons from "../screens/Coupons";
 import About from "../screens/About";
 
 const Drawer = createDrawerNavigator();
@@ -55,7 +56,16 @@ const DrawerNavigation = () => {
         }}
       >
         <Drawer.Screen name="Home" component={Home} drawerLabel="الرئيسية" />
-        <Drawer.Screen name="DateConverter" component={DateConverter} drawerLabel="الأذكار" />
+        <Drawer.Screen
+          name="DateConverter"
+          component={DateConverter}
+          drawerLabel="الأذكار"
+        />
+        <Drawer.Screen
+          name="Coupons"
+          component={Coupons}
+          drawerLabel="كوبونات الخصم"
+        />
         <Drawer.Screen name="About" component={About} />
       </Drawer.Navigator>
     </NavigationContainer>
@@ -67,7 +77,7 @@ const CustomDrawer = (props) => {
   const shareApp = async () => {
     try {
       await Share.share({
-        message: `تعرف إنك ممكن تبحث عن أي رقم في العالم من خلال تطبيق محول التاريخ !\nممكن تحمله من علي جوجل بلاي من هنا ${GOOGLE_PLAY_URL}\nأو من علي App Store من هنا ${APP_STORE_URL}`,
+        message: SHARE_APP_TEXT,
       });
     } catch (e) {
       alert(e.message);
@@ -89,7 +99,7 @@ const CustomDrawer = (props) => {
       <View style={styles.logoContainer}>
         <Image source={require("../assets/img/logo.png")} style={styles.logo} />
       </View>
-      <Text style={styles.appName}>موعد الرواتب</Text>
+      <Text style={styles.appName}>{APP_NAME}</Text>
 
       <TouchableNativeFeedback
         onPress={() => props.navigation.navigate("Home")}
@@ -106,13 +116,31 @@ const CustomDrawer = (props) => {
         </View>
       </TouchableNativeFeedback>
       <TouchableNativeFeedback
+        onPress={() => props.navigation.navigate("Coupons")}
+        useForeground
+      >
+        <View style={styles.btn}>
+          <View style={styles.labelIcon}>
+            <Image
+              source={require("../assets/img/coupon.png")}
+              style={{
+                resizeMode: "cover",
+                width: 25,
+                height: 25,
+              }}
+            />
+          </View>
+          <Text style={styles.labelText}>كوبونات خصم</Text>
+        </View>
+      </TouchableNativeFeedback>
+      <TouchableNativeFeedback
         onPress={() => props.navigation.navigate("DateConverter")}
         useForeground
       >
         <View style={styles.btn}>
           <Icon
             color={Colors.primary}
-            name={"ios-book"}
+            name={"ios-calendar"}
             size={26}
             style={styles.labelIcon}
           />
@@ -155,20 +183,6 @@ const CustomDrawer = (props) => {
           <Text style={styles.labelText}>تقييم التطبيق</Text>
         </View>
       </TouchableNativeFeedback>
-      <TouchableNativeFeedback
-        onPress={() => Linking.openURL(`mailto:${EMAIL}`)}
-        useForeground
-      >
-        <View style={styles.btn}>
-          <Icon
-            color={Colors.primary}
-            name={"ios-mail"}
-            size={26}
-            style={styles.labelIcon}
-          />
-          <Text style={styles.labelText}>تواصل معنا</Text>
-        </View>
-      </TouchableNativeFeedback>
       <AdMobBanner
         bannerSize="mediumRectangle"
         adUnitID={
@@ -200,7 +214,7 @@ const styles = StyleSheet.create({
   logo: {
     resizeMode: "contain",
     width: "80%",
-    height: 100
+    height: 100,
   },
   appName: {
     fontFamily: "mix-arab-bold",

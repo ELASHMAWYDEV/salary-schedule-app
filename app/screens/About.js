@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 //Config
-import { EMAIL } from "../../config";
+import { EMAIL, APP_ABOUT, APP_NAME } from "../../config";
 
 //Components
 import PageHeader from "../Components/PageHeader";
@@ -30,10 +30,9 @@ const About = (props) => {
         <Image source={require("../assets/img/logo.png")} style={styles.logo} />
       </View>
       <Text style={styles.versionText}>إصدار {pkg.expo.version}</Text>
-      <Text style={styles.appNameText}>موعد الرواتب</Text>
+      <Text style={styles.appNameText}>{APP_NAME}</Text>
       <Text style={styles.infoText}>
-        يقدم موعد الرواتب بالايام المتبقية عن نزول الرواتب وبشكل مميز وانيق و
-        وامكانية تحويل التواريخ
+        {APP_ABOUT}
       </Text>
       <TouchableNativeFeedback
         onPress={() => Linking.openURL(`mailto:${EMAIL}`)}

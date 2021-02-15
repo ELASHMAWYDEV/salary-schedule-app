@@ -2,7 +2,7 @@
   "expo": {
     "name": "موعد الرواتب",
     "slug": "salary-schedule",
-    "version": "1.0",
+    "version": "1.4",
     "orientation": "portrait",
     "icon": "./app/assets/img/icon.png",
     "splash": {
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.techview.salaries.schedule",
-      "buildNumber": "1.0",
+      "buildNumber": "1.4",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-4168953325851257~6404384415"
       }
@@ -30,7 +30,7 @@
     "description": "",
     "android": {
       "package": "com.techview.salaries.schedule",
-      "versionCode": 1,
+      "versionCode": 5,
       "permissions": [],
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-4168953325851257~9837019504"

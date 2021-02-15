@@ -1,12 +1,17 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import DrawerNavigation from "./app/Navigation/DrawerNavigation";
 import { useFonts } from "expo-font";
 import { BackHandler, Alert, View, StatusBar } from "react-native";
+import useNotifications from "./app/hooks/useNotifications";
 
 //Components
 import Loading from "./app/Components/Loading";
 
 const App = () => {
+
+  useNotifications();
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackBtn);
     
