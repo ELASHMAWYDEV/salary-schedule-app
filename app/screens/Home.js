@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, BackHandler, Platform } from "react-native";
+import { View, StyleSheet, BackHandler, Platform, Linking } from "react-native";
 import { WebView } from "react-native-webview";
 
 import { SALARY_URL } from "../../config";
@@ -81,6 +81,11 @@ const Home = (props) => {
         style={styles.webView}
         onLoad={() => setIsLoading(false)}
         allowsBackForwardNavigationGestures
+        onNavigationStateChange={(event) => {
+          if (event.url.split(".").includes("example.com")) {
+            Linking.openURL(event.url);
+          }
+        }}
       />
     </View>
   );

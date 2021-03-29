@@ -31,6 +31,7 @@
     "android": {
       "package": "com.techview.salaries.schedule",
       "versionCode": 5,
+      "useNextNotificationsApi": true,
       "permissions": [],
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-4168953325851257~9837019504"

@@ -1,12 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 import axios from "axios";
 
-const useNotifications = async () => {
-  const [notification, setNotification] = useState(false);
-  const [pushToken, setPushToken] = useState("");
+const NotificationsHook = () => {
+  // @ts-ignore
   const notificationListener = useRef(null);
   const responseListener = useRef(null);
 
@@ -23,13 +22,23 @@ const useNotifications = async () => {
     //Get the push notification & send it to the server (if you want)
     (async () => {
       try {
-        const token = await registerForPushNotificationsAsync();
-        setPushToken(token);
+        let token = await registerForPushNotificationsAsync();
+
+        //Development only
+        if (__DEV__) {
+          alert(token);
+          token = token.toString();
+          console.log(typeof token, token);
+        }
         //Send to server
-        await axios.post("https://notification-dahsboard.herokuapp.com/addToken", {
-          token: pushToken,
+        let response = await axios.post("http://192.168.1.105:5000/addToken", {
+          token,
           appId: 1,
         });
+
+        let data = await response.data;
+
+        console.log(data);
       } catch (e) {
         console.log(e.message);
       }
@@ -38,6 +47,7 @@ const useNotifications = async () => {
     //Notification Handlers
     notificationListener.current = Notifications.addNotificationReceivedListener(
       (notification) => {
+        // @ts-ignore
         setNotification(notification);
       }
     );
@@ -49,7 +59,9 @@ const useNotifications = async () => {
     );
 
     return () => {
+      // @ts-ignore
       Notifications.removeNotificationSubscription(notificationListener);
+      // @ts-ignore
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
@@ -84,13 +96,10 @@ const useNotifications = async () => {
       });
     }
 
-    console.log(token);
     return token;
   };
 
-  return {
-    pushToken,
-  };
+  return <></>;
 };
 
-export default useNotifications;
+export default NotificationsHook;
