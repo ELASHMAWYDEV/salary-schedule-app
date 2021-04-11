@@ -9,6 +9,7 @@ import {
   Linking,
   Share,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -24,7 +25,13 @@ import { AdMobBanner } from "expo-ads-admob";
 import Colors from "../assets/Colors";
 
 //Config
-import { EMAIL, GOOGLE_PLAY_URL, APP_STORE_URL, APP_NAME, SHARE_APP_TEXT } from "../../config";
+import {
+  EMAIL,
+  GOOGLE_PLAY_URL,
+  APP_STORE_URL,
+  APP_NAME,
+  SHARE_APP_TEXT,
+} from "../../config";
 import {
   BANNER_TEST_ID_IOS,
   BANNER_TEST_ID_ANDROID,
@@ -183,7 +190,7 @@ const CustomDrawer = (props) => {
           <Text style={styles.labelText}>تقييم التطبيق</Text>
         </View>
       </TouchableNativeFeedback>
-      <AdMobBanner
+      {/* <AdMobBanner
         bannerSize="mediumRectangle"
         adUnitID={
           __DEV__
@@ -196,7 +203,13 @@ const CustomDrawer = (props) => {
         }
         servePersonalizedAds
         onDidFailToReceiveAdWithError={(e) => console.log(e)}
-      />
+      /> */}
+
+      <TouchableOpacity
+        onPress={() => Linking.openURL("https://www.google.com")}
+      >
+        <Image source={require("../assets/img/logo.png")} style={styles.logo} />
+      </TouchableOpacity>
     </DrawerContentScrollView>
   );
 };
